@@ -94,6 +94,9 @@ TEA_LOAD_CONFIG(tkimgwindow)
 TEA_PATH_CONFIG(tkmpeg)
 TEA_LOAD_CONFIG(tkmpeg)
 
+TEA_PATH_CONFIG(tkgif)
+TEA_LOAD_CONFIG(tkgif)
+
 TEA_PATH_CONFIG(tkagif)
 TEA_LOAD_CONFIG(tkagif)
 

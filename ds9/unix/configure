@@ -679,6 +679,14 @@ tkagif_LIB_FILE
 tkagif_SRC_DIR
 tkagif_BIN_DIR
 tkagif_VERSION
+tkgif_STUB_LIB_PATH
+tkgif_STUB_LIB_SPEC
+tkgif_STUB_LIB_FILE
+tkgif_LIB_SPEC
+tkgif_LIB_FILE
+tkgif_SRC_DIR
+tkgif_BIN_DIR
+tkgif_VERSION
 tkmpeg_STUB_LIB_PATH
 tkmpeg_STUB_LIB_SPEC
 tkmpeg_STUB_LIB_FILE
@@ -907,6 +915,7 @@ with_tkimgjpeg
 with_tkimgtiff
 with_tkimgwindow
 with_tkmpeg
+with_tkgif
 with_tkagif
 with_tksao
 with_tktable
@@ -1577,6 +1586,7 @@ Optional Packages:
   --with-tkimgtiff              directory containing tkimgtiff configuration (tkimgtiffConfig.sh)
   --with-tkimgwindow              directory containing tkimgwindow configuration (tkimgwindowConfig.sh)
   --with-tkmpeg              directory containing tkmpeg configuration (tkmpegConfig.sh)
+  --with-tkgif              directory containing tkgif configuration (tkgifConfig.sh)
   --with-tkagif              directory containing tkagif configuration (tkagifConfig.sh)
   --with-tksao              directory containing tksao configuration (tksaoConfig.sh)
   --with-tktable              directory containing tktable configuration (tktableConfig.sh)
@@ -7586,6 +7596,255 @@ fi
 
 
     #
+    # Ok, lets find the tkgif configuration
+    # First, look for one uninstalled.
+    # the alternative search directory is invoked by --with-tkgif
+    #
+
+    if test x"${no_tkgif}" = x ; then
+	# we reset no_tkgif in case something fails here
+	no_tkgif=true
+
+# Check whether --with-tkgif was given.
+if test "${with_tkgif+set}" = set; then :
+  withval=$with_tkgif; with_tkgifconfig=${withval}
+fi
+
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for tkgif configuration" >&5
+$as_echo_n "checking for tkgif configuration... " >&6; }
+	if ${ac_cv_c_tkgifconfig+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+
+	    # First check to see if --with-tkgif was specified.
+	    if test x"${with_tkgifconfig}" != x ; then
+		case ${with_tkgifconfig} in
+		    */tkgifConfig.sh )
+			if test -f ${with_tkgifconfig}; then
+			    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: --with-tkgif argument should refer to directory containing tkgifConfig.sh, not to tkgifConfig.sh itself" >&5
+$as_echo "$as_me: WARNING: --with-tkgif argument should refer to directory containing tkgifConfig.sh, not to tkgifConfig.sh itself" >&2;}
+			    with_tkgifconfig=`echo ${with_tkgifconfig} | sed 's!/tkgifConfig\.sh$!!'`
+			fi;;
+		esac
+		if test -f "${with_tkgifconfig}/tkgifConfig.sh" ; then
+		    ac_cv_c_tkgifconfig=`(cd ${with_tkgifconfig}; pwd)`
+		else
+		    as_fn_error $? "${with_tkgifconfig} directory doesn't contain tkgifConfig.sh" "$LINENO" 5
+		fi
+	    fi
+
+	    # then check for a private tkgif installation
+	    if test x"${ac_cv_c_tkgifconfig}" = x ; then
+		for i in \
+			../tkgif \
+			`ls -dr ../tkgif*[0-9].[0-9]*.[0-9]* 2>/dev/null` \
+			`ls -dr ../tkgif*[0-9].[0-9][0-9] 2>/dev/null` \
+			`ls -dr ../tkgif*[0-9].[0-9] 2>/dev/null` \
+			`ls -dr ../tkgif*[0-9].[0-9]* 2>/dev/null` \
+			../../tkgif \
+			`ls -dr ../../tkgif*[0-9].[0-9]*.[0-9]* 2>/dev/null` \
+			`ls -dr ../../tkgif*[0-9].[0-9][0-9] 2>/dev/null` \
+			`ls -dr ../../tkgif*[0-9].[0-9] 2>/dev/null` \
+			`ls -dr ../../tkgif*[0-9].[0-9]* 2>/dev/null` \
+			../../../tkgif \
+			`ls -dr ../../../tkgif*[0-9].[0-9]*.[0-9]* 2>/dev/null` \
+			`ls -dr ../../../tkgif*[0-9].[0-9][0-9] 2>/dev/null` \
+			`ls -dr ../../../tkgif*[0-9].[0-9] 2>/dev/null` \
+			`ls -dr ../../../tkgif*[0-9].[0-9]* 2>/dev/null` \
+			${srcdir}/../tkgif \
+			`ls -dr ${srcdir}/../tkgif*[0-9].[0-9]*.[0-9]* 2>/dev/null` \
+			`ls -dr ${srcdir}/../tkgif*[0-9].[0-9][0-9] 2>/dev/null` \
+			`ls -dr ${srcdir}/../tkgif*[0-9].[0-9] 2>/dev/null` \
+			`ls -dr ${srcdir}/../tkgif*[0-9].[0-9]* 2>/dev/null` \
+			; do
+		    if test -f "$i/tkgifConfig.sh" ; then
+			ac_cv_c_tkgifconfig=`(cd $i; pwd)`
+			break
+		    fi
+		    if test -f "$i/unix/tkgifConfig.sh" ; then
+			ac_cv_c_tkgifconfig=`(cd $i/unix; pwd)`
+			break
+		    fi
+		done
+	    fi
+
+	    # check in a few common install locations
+	    if test x"${ac_cv_c_tkgifconfig}" = x ; then
+		for i in `ls -d ${libdir} 2>/dev/null` \
+			`ls -d ${exec_prefix}/lib 2>/dev/null` \
+			`ls -d ${prefix}/lib 2>/dev/null` \
+			`ls -d /usr/local/lib 2>/dev/null` \
+			`ls -d /usr/contrib/lib 2>/dev/null` \
+			`ls -d /usr/pkg/lib 2>/dev/null` \
+			`ls -d /usr/lib 2>/dev/null` \
+			`ls -d /usr/lib64 2>/dev/null` \
+			; do
+		    if test -f "$i/tkgifConfig.sh" ; then
+			ac_cv_c_tkgifconfig=`(cd $i; pwd)`
+			break
+		    fi
+		done
+	    fi
+
+fi
+
+
+	if test x"${ac_cv_c_tkgifconfig}" = x ; then
+	    tkgif_BIN_DIR="# no tkgif configs found"
+	    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Cannot find tkgif configuration definitions" >&5
+$as_echo "$as_me: WARNING: Cannot find tkgif configuration definitions" >&2;}
+	    exit 0
+	else
+	    no_tkgif=
+	    tkgif_BIN_DIR=${ac_cv_c_tkgifconfig}
+	    { $as_echo "$as_me:${as_lineno-$LINENO}: result: found $tkgif_BIN_DIR/tkgifConfig.sh" >&5
+$as_echo "found $tkgif_BIN_DIR/tkgifConfig.sh" >&6; }
+	fi
+    fi
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for existence of ${tkgif_BIN_DIR}/tkgifConfig.sh" >&5
+$as_echo_n "checking for existence of ${tkgif_BIN_DIR}/tkgifConfig.sh... " >&6; }
+
+    if test -f "${tkgif_BIN_DIR}/tkgifConfig.sh" ; then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: loading" >&5
+$as_echo "loading" >&6; }
+	. "${tkgif_BIN_DIR}/tkgifConfig.sh"
+    else
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: file not found" >&5
+$as_echo "file not found" >&6; }
+    fi
+
+    #
+    # If the tkgif_BIN_DIR is the build directory (not the install directory),
+    # then set the common variable name to the value of the build variables.
+    # For example, the variable tkgif_LIB_SPEC will be set to the value
+    # of tkgif_BUILD_LIB_SPEC. An extension should make use of tkgif_LIB_SPEC
+    # instead of tkgif_BUILD_LIB_SPEC since it will work with both an
+    # installed and uninstalled version of Tcl.
+    #
+
+    if test -f "${tkgif_BIN_DIR}/Makefile" ; then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Found Makefile - using build library specs for tkgif" >&5
+$as_echo "$as_me: WARNING: Found Makefile - using build library specs for tkgif" >&2;}
+        tkgif_LIB_SPEC=${tkgif_BUILD_LIB_SPEC}
+        tkgif_STUB_LIB_SPEC=${tkgif_BUILD_STUB_LIB_SPEC}
+        tkgif_STUB_LIB_PATH=${tkgif_BUILD_STUB_LIB_PATH}
+        tkgif_INCLUDE_SPEC=${tkgif_BUILD_INCLUDE_SPEC}
+        tkgif_LIBRARY_PATH=${tkgif_LIBRARY_PATH}
+    fi
+
+
+
+
+
+
+
+
+
+
+
+
+    # Allow the caller to prevent this auto-check by specifying any 2nd arg
+    if test "x" = x; then :
+
+	# Check both upper and lower-case variants
+	# If a dev wanted non-stubs libs, this function could take an option
+	# to not use _STUB in the paths below
+	if test "x${tkgif_STUB_LIB_SPEC}" = x; then :
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking For TKGIF_STUB library for LIBS" >&5
+$as_echo_n "checking For TKGIF_STUB library for LIBS... " >&6; }
+    # This simplifies the use of stub libraries by automatically adding
+    # the stub lib to your path.  Normally this would add to SHLIB_LD_LIBS,
+    # but this is called before CONFIG_CFLAGS.  More importantly, this adds
+    # to PKG_LIBS, which becomes LIBS, and that is only used by SHLIB_LD.
+    if test "x${TKGIF_STUB_LIB_SPEC}" != "x" ; then
+	if test "${TEA_PLATFORM}" = "windows" -a "$GCC" != "yes" ; then
+
+    vars="\"`${CYGPATH} ${TKGIF_STUB_LIB_PATH}`\""
+    for i in $vars; do
+	if test "${TEA_PLATFORM}" = "windows" -a "$GCC" = "yes" ; then
+	    # Convert foo.lib to -lfoo for GCC.  No-op if not *.lib
+	    i=`echo "$i" | sed -e 's/^\([^-].*\)\.lib$/-l\1/i'`
+	fi
+	PKG_LIBS="$PKG_LIBS $i"
+    done
+
+
+	    { $as_echo "$as_me:${as_lineno-$LINENO}: result: using TKGIF_STUB_LIB_PATH ${TKGIF_STUB_LIB_PATH}" >&5
+$as_echo "using TKGIF_STUB_LIB_PATH ${TKGIF_STUB_LIB_PATH}" >&6; }
+	else
+
+    vars="${TKGIF_STUB_LIB_SPEC}"
+    for i in $vars; do
+	if test "${TEA_PLATFORM}" = "windows" -a "$GCC" = "yes" ; then
+	    # Convert foo.lib to -lfoo for GCC.  No-op if not *.lib
+	    i=`echo "$i" | sed -e 's/^\([^-].*\)\.lib$/-l\1/i'`
+	fi
+	PKG_LIBS="$PKG_LIBS $i"
+    done
+
+
+	    { $as_echo "$as_me:${as_lineno-$LINENO}: result: using TKGIF_STUB_LIB_SPEC ${TKGIF_STUB_LIB_SPEC}" >&5
+$as_echo "using TKGIF_STUB_LIB_SPEC ${TKGIF_STUB_LIB_SPEC}" >&6; }
+	fi
+    else
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: file not found" >&5
+$as_echo "file not found" >&6; }
+    fi
+
+else
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking For tkgif_STUB library for LIBS" >&5
+$as_echo_n "checking For tkgif_STUB library for LIBS... " >&6; }
+    # This simplifies the use of stub libraries by automatically adding
+    # the stub lib to your path.  Normally this would add to SHLIB_LD_LIBS,
+    # but this is called before CONFIG_CFLAGS.  More importantly, this adds
+    # to PKG_LIBS, which becomes LIBS, and that is only used by SHLIB_LD.
+    if test "x${tkgif_STUB_LIB_SPEC}" != "x" ; then
+	if test "${TEA_PLATFORM}" = "windows" -a "$GCC" != "yes" ; then
+
+    vars="\"`${CYGPATH} ${tkgif_STUB_LIB_PATH}`\""
+    for i in $vars; do
+	if test "${TEA_PLATFORM}" = "windows" -a "$GCC" = "yes" ; then
+	    # Convert foo.lib to -lfoo for GCC.  No-op if not *.lib
+	    i=`echo "$i" | sed -e 's/^\([^-].*\)\.lib$/-l\1/i'`
+	fi
+	PKG_LIBS="$PKG_LIBS $i"
+    done
+
+
+	    { $as_echo "$as_me:${as_lineno-$LINENO}: result: using tkgif_STUB_LIB_PATH ${tkgif_STUB_LIB_PATH}" >&5
+$as_echo "using tkgif_STUB_LIB_PATH ${tkgif_STUB_LIB_PATH}" >&6; }
+	else
+
+    vars="${tkgif_STUB_LIB_SPEC}"
+    for i in $vars; do
+	if test "${TEA_PLATFORM}" = "windows" -a "$GCC" = "yes" ; then
+	    # Convert foo.lib to -lfoo for GCC.  No-op if not *.lib
+	    i=`echo "$i" | sed -e 's/^\([^-].*\)\.lib$/-l\1/i'`
+	fi
+	PKG_LIBS="$PKG_LIBS $i"
+    done
+
+
+	    { $as_echo "$as_me:${as_lineno-$LINENO}: result: using tkgif_STUB_LIB_SPEC ${tkgif_STUB_LIB_SPEC}" >&5
+$as_echo "using tkgif_STUB_LIB_SPEC ${tkgif_STUB_LIB_SPEC}" >&6; }
+	fi
+    else
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: file not found" >&5
+$as_echo "file not found" >&6; }
+    fi
+
+fi
+
+fi
+
+
+
+    #
     # Ok, lets find the tkagif configuration
     # First, look for one uninstalled.
     # the alternative search directory is invoked by --with-tkagif
@@ -8330,13 +8589,6 @@ fi
 
 fi
 
-
-#TEA_PATH_CONFIG(pngtcl)
-#TEA_LOAD_CONFIG(pngtcl)
-#TEA_PATH_CONFIG(tkimgpng)
-#TEA_LOAD_CONFIG(tkimgpng)
-#TEA_PATH_CONFIG(tkimggif)
-#TEA_LOAD_CONFIG(tkimggif)
 
 #-----------------------------------------------------------------------
 # Handle the --prefix=... option by defaulting to what Tcl gave.

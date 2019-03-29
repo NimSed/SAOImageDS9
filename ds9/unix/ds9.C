@@ -26,6 +26,7 @@ extern "C" {
   int Tksao_Init(Tcl_Interp*);
   int Tkhtml1_Init(Tcl_Interp*);
   int Tkmpeg_Init(Tcl_Interp*);
+  int Tkgif_Init(Tcl_Interp*);
   int Tkagif_Init(Tcl_Interp*);
 
   int Tkimg_Init(Tcl_Interp*);
@@ -155,6 +156,12 @@ int SAOAppInit(Tcl_Interp *interp)
   if (Tkmpeg_Init(interp) == TCL_ERROR)
     return TCL_ERROR;
   Tcl_StaticPackage (interp, "tkmpeg", Tkmpeg_Init, 
+		     (Tcl_PackageInitProc*)NULL);
+
+  // Tkgif
+  if (Tkgif_Init(interp) == TCL_ERROR)
+    return TCL_ERROR;
+  Tcl_StaticPackage (interp, "tkgif", Tkgif_Init, 
 		     (Tcl_PackageInitProc*)NULL);
 
   // Tkagif
